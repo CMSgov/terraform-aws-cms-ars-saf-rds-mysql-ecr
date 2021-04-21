@@ -4,7 +4,7 @@ FROM chef/inspec:stable
 # install curl, git, unzip, gpg, and gpg-agent
 RUN set -ex && cd ~ \
     && apt-get update \
-    && apt-get -qq -y install --no-install-recommends git gpg gpg-agent curl unzip \
+    && apt-get -qq -y install --no-install-recommends git gpg gpg-agent curl unzip mysql-client \
     && apt-get clean \
     && rm -vrf /var/lib/apt/lists/*
 
