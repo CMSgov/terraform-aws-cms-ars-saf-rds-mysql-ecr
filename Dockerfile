@@ -1,7 +1,7 @@
 # Chef Inspec tool as a docker image
 FROM chef/inspec:stable
 
-# install curl, git, unzip, gpg, and gpg-agent
+# install curl, git, unzip, gpg, gpg-agent, and mysql-client
 RUN set -ex && cd ~ \
     && apt-get update \
     && apt-get -qq -y install --no-install-recommends git gpg gpg-agent curl unzip mysql-client \
