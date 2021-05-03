@@ -5,8 +5,7 @@ on:
     branches: [main]
   # Also trigger on release created event
   release:
-    types:
-      - created
+    types: [published]
 
 jobs:
   build:
@@ -38,10 +37,7 @@ jobs:
         run: |
           docker run --entrypoint /bin/bash $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} -c "aws --version"
           docker run --entrypoint /bin/bash $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} -c "git --version"
-          docker run --entrypoint /bin/bash $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} -c "curl --version"
-          docker run --entrypoint /bin/bash $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} -c "gpg --version"
-          docker run --entrypoint /bin/bash $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} -c "gpg-agent --version"
-          docker run --entrypoint /bin/bash $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} -c "unzip"
+          docker run --entrypoint /bin/bash $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} -c "cinc-auditor --version"
       - name: Push docker image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
