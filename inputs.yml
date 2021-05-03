@@ -1,29 +1,26 @@
-# The followiing inputs must be set to accepted/documented values which is
-# then verified by the applicable controls.
+# Description: Username MySQL DB Server (e.g., 'root')
+user: <%= ENV['USERNAME'] %>
 
-# description: 'default aws region',
-default_aws_region: "us-east-1"
+# Description: Password MySQL DB Server (e.g., 'P@ssw0rd1')
+password: <%= ENV['PASSWORD'] %>
 
-# default aws key age (1.4)
-aws_key_age: 60 # <-- DO NOT EDIT - aligned to CMS ARS 3.1 policy
+# Description: Hostname MySQL DB Server (e.g., 'localhost')
+host: <%= ENV['HOSTNAME'] %>
 
-# Make the password length (1.9)
-pwd_length: 12 # <-- DO NOT EDIT - aligned to CMS ARS 3.1 policy
+# Description: Port MySQL DB Server (e.g., 3306)
+port: <%= ENV['PORT'] %>
 
-# make the aws_cred_age an input (1.11)
-aws_cred_age: 60 # <-- DO NOT EDIT - aligned to CMS ARS 3.1 policy
+# Description: Approved version expected to be installed (e.g., ['5.7.31'])
+approved_mysql_version: <%= ENV['MYSQL_VERSION'] %>
 
-# description: 'list of buckets exempted from inspection',
-exception_bucket_list: <%= ENV['EXCEPTION_BUCKET_LIST'] %>
+# Description: List of MySQL database users (e.g., ['rdsadmin','testuser1','user2'])
+mysql_users: <%= ENV['MYSQL_USERS'] %>
 
-# description: 'list of security groups exempted from inspection',
-exception_security_group_list: <%= ENV['EXCEPTION_SECURITY_GROUP_LIST'] %>
+# Description: Set to true if the MySQL server has a slave configured
+is_mysql_server_slave_configured: <%= ENV['WORKER_CONFIGURED'] %>
 
-# description: 'Config delivery channel list and settings in all relevant regions',
-config_delivery_channels:
-  us-east-1:
-    s3_bucket_name: <%= ENV['US_EAST_1_S3_BUCKET_NAME'] %>
-    sns_topic_arn: <%= ENV['US_EAST_1_SNS_TOPIC_ARN'] %>
-  us-west-2:
-    s3_bucket_name: <%= ENV['US_WEST_2_S3_BUCKET_NAME'] %>
-    sns_topic_arn: <%= ENV['US_WEST_2_SNS_TOPIC_ARN'] %>
+# Description: List of MySQL administrative users (e.g., ['rdsadmin','testadmin1','admin2'])
+mysql_administrative_users: <%= ENV['ADMIN_USERS'] %>
+
+# Description: List of MySQL users allows to modify or create data structures (e.g., ['rdsadmin'])'
+mysql_users_allowed_modify_or_create: <%= ENV['READ_WRITE_USERS'] %>

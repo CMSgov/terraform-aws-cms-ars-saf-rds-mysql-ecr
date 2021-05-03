@@ -1,12 +1,26 @@
-# Chef Inspec tool as a docker image
-FROM chef/inspec:stable
+FROM amazon/aws-cli:latest
 
-# install curl, git, unzip, gpg, gpg-agent, and mysql-client
-RUN set -ex && cd ~ \
-    && apt-get update \
-    && apt-get -qq -y install --no-install-recommends git gpg gpg-agent curl unzip mysql-client \
-    && apt-get clean \
-    && rm -vrf /var/lib/apt/lists/*
+ARG VERSION="4.22.0"
+ARG GEM_SOURCE=https://packagecloud.io/cinc-project/stable
+# build-base openssh-client
+# openssh already installed
+# Unavailable: ruby-dev ruby-etc ruby-webrick
+
+RUN yum -y install https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm && \
+    yum -y install gcc-c++ openssl make git unzip ruby ruby-devel mysql-community-client libxml2-devel libffi-devel && \
+    # Use patched version which fixes support for aarch64
+    # https://github.com/knu/ruby-unf_ext/commit/8a6a735b51ef903200fc541112e35b7cea781856
+    gem install --no-document --clear-sources --source ${GEM_SOURCE} --version 0.0.7.2 unf_ext && \
+    gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} inspec && \
+    gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} cinc-auditor-bin
+
+gem install --no-document --source https://packagecloud.io/cinc-project/stable --version 4.22.0 inspec
+# # install curl, git, unzip, gpg, gpg-agent, and mysql-client
+# RUN set -ex && cd ~ \
+#     && apt-get update \
+#     && apt-get -qq -y install --no-install-recommends git gpg gpg-agent curl unzip mysql-client \
+#     && apt-get clean \
+#     && rm -vrf /var/lib/apt/lists/*
 
 # install awscliv2, disable default pager (less)
 ENV AWS_PAGER=""
@@ -22,18 +36,18 @@ RUN set -ex && cd ~ \
     && aws --version \
     && rm -r awscliv2.zip awscliv2.sig aws
 
-# apt-get all the things
-# Notes:
-# - Add all apt sources first
-# - groff and less required by AWS CLI
-ARG CACHE_APT
-RUN set -ex && cd ~ \
-    && apt-get update \
-    && : Install apt packages \
-    && apt-get -qq -y install --no-install-recommends apt-transport-https less groff lsb-release \
-    && : Cleanup \
-    && apt-get clean \
-    && rm -vrf /var/lib/apt/lists/*
+# # apt-get all the things
+# # Notes:
+# # - Add all apt sources first
+# # - groff and less required by AWS CLI
+# ARG CACHE_APT
+# RUN set -ex && cd ~ \
+#     && apt-get update \
+#     && : Install apt packages \
+#     && apt-get -qq -y install --no-install-recommends apt-transport-https less groff lsb-release \
+#     && : Cleanup \
+#     && apt-get clean \
+#     && rm -vrf /var/lib/apt/lists/*
 
 # create a non-root user for security
 RUN useradd -rm -d /home/default -u 1234 default
