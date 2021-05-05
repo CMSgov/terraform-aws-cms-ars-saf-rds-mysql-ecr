@@ -14,7 +14,7 @@ RUN gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} cinc-a
 
 #clean up
 RUN yum clean all && \
-     rm -rf /var/cache/yum
+    rm -rf /var/cache/yum
 
 # create a non-root user for security
 RUN useradd -rm -d /home/default -u 1234 default
