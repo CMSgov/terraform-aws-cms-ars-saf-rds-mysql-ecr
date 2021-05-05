@@ -11,7 +11,7 @@ This ADR will discuss how we will tag these images.
 
 ## Status
 
-Pending
+Accepted
 
 ## Author(s)
 
