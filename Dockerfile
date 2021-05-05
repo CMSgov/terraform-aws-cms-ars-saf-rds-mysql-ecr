@@ -1,4 +1,4 @@
-FROM amazon/aws-cli:latest
+FROM amazon/aws-cli:2.2.2
 
 ARG VERSION="4.22.0"
 ARG GEM_SOURCE=https://packagecloud.io/cinc-project/stable
