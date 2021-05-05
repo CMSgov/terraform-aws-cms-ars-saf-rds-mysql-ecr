@@ -24,5 +24,9 @@ variable "scan_on_push" {
 variable "allowed_read_principals" {
   type        = list
   description = "External principals that are allowed to read from the ECR repository"
-  default     = []
+}
+
+variable "ci_user_arn" {
+  type        = string
+  description = "ARN for CI user which has read/write permissions"
 }
