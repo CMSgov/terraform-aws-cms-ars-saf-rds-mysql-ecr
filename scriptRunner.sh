@@ -4,19 +4,19 @@
 # Error codes for reference: https://docs.chef.io/inspec/cli/#exec
 set -o pipefail
 
-echo "starting inspec scan"
+echo "starting cinc-auditor scan"
 
 # log to cloudwatch
-inspec exec /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay --target aws:// --chef-license accept-silent --no-color
+cinc-auditor exec /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay --target aws:// --chef-license accept-silent --no-color
 
 # shellcheck disable=SC2154
 if [[ -n $s3_bucket_path ]]; then
     echo "s3_bucket_path values found: $s3_bucket_path"
     filename="$(date '+%Y-%m-%d-%H-%M-%S').json"
-    inspec exec /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay --reporter json --target aws:// --chef-license accept-silent | aws s3 cp - "$s3_bucket_path/$filename"
+    cinc-auditor exec /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay --reporter json --target aws:// --chef-license accept-silent | aws s3 cp - "$s3_bucket_path/$filename"
     echo "s3 scan results upload complete"
 else
     echo "s3_bucket_path variable not found, skipping s3 results upload."
 fi
 
-echo "inspec scan completed successfully"
+echo "cinc-auditor scan completed successfully"
