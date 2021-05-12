@@ -8,7 +8,7 @@ password: <%= ENV['PASSWORD'] %>
 host: <%= ENV['HOSTNAME'] %>
 
 # Description: Port MySQL DB Server (e.g., 3306)
-port: <%= ENV['PORT'] %>
+port: <%= Integer(ENV['PORT']) %>
 
 # Description: Approved version expected to be installed (e.g., ['5.7.31'])
 approved_mysql_version: <%= ENV['MYSQL_VERSION'] %>
