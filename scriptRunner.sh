@@ -6,6 +6,10 @@ set -o pipefail
 
 echo "starting cinc-auditor scan"
 
+echo "hydrate config file"
+
+erb /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/inputs.yml.erb > /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/inputs.yml
+
 # log to cloudwatch
 cinc-auditor exec /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay --input-file=/home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/inputs.yml --target aws:// --chef-license accept-silent --no-color
 
