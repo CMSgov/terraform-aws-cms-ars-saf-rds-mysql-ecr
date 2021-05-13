@@ -14,13 +14,13 @@ port: <%= Integer(ENV['PORT']) %>
 approved_mysql_version: <%= ENV['MYSQL_VERSION'] %>
 
 # Description: List of MySQL database users (e.g., ['rdsadmin','testuser1','user2'])
-mysql_users: <%= ENV['MYSQL_USERS'] %>
+mysql_users: <%= val=ENV['MYSQL_USERS']; val.to_s.strip.length == 0 ? [] : val.split(",").reject(&:empty?) %>
 
 # Description: Set to true if the MySQL server has a slave configured
 is_mysql_server_slave_configured: <%= ENV['WORKER_CONFIGURED'] %>
 
 # Description: List of MySQL administrative users (e.g., ['rdsadmin','testadmin1','admin2'])
-mysql_administrative_users: <%= ENV['ADMIN_USERS'] %>
+mysql_administrative_users: <%= val=ENV['ADMIN_USERS']; val.to_s.strip.length == 0 ? [] : val.split(",").reject(&:empty?) %>
 
 # Description: List of MySQL users allows to modify or create data structures (e.g., ['rdsadmin'])'
-mysql_users_allowed_modify_or_create: <%= ENV['READ_WRITE_USERS'] %>
+mysql_users_allowed_modify_or_create: <%= val=ENV['READ_WRITE_USERS']; val.to_s.strip.length == 0 ? [] : val.split(",").reject(&:empty?) %>
