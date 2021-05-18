@@ -17,7 +17,7 @@ approved_mysql_version: <%= ENV['MYSQL_VERSION'] %>
 mysql_users: <%= val=ENV['MYSQL_USERS']; val.to_s.strip.length == 0 ? [] : val.split(",").reject(&:empty?) %>
 
 # Description: Set to true if the MySQL server has a slave configured
-is_mysql_server_slave_configured: <%= val=ENV['WORKER_CONFIGURED']; val == 'true' ? true : false %>
+is_mysql_server_slave_configured: <%= ENV['WORKER_CONFIGURED'] %>
 
 # Description: List of MySQL administrative users (e.g., ['rdsadmin','testadmin1','admin2'])
 mysql_administrative_users: <%= val=ENV['ADMIN_USERS']; val.to_s.strip.length == 0 ? [] : val.split(",").reject(&:empty?) %>
