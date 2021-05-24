@@ -1,11 +1,25 @@
-# Description: Username MySQL DB Server (e.g., 'root')
-user: <%= ENV['USERNAME'] %>
+<% if ENV['RDS_CREDS'] == "" %>
+  # Description: Username MySQL DB Server (e.g., 'root')
+  user: <%= ENV['USERNAME'] %>
 
-# Description: Password MySQL DB Server (e.g., 'P@ssw0rd1')
-password: <%= ENV['PASSWORD'] %>
+  # Description: Password MySQL DB Server (e.g., 'P@ssw0rd1')
+  password: <%= ENV['PASSWORD'] %>
 
-# Description: Hostname MySQL DB Server (e.g., 'localhost')
-host: <%= ENV['HOSTNAME'] %>
+  # Description: Hostname MySQL DB Server (e.g., 'localhost')
+  host: <%= ENV['HOSTNAME'] %>
+<% else %>
+  # Description: Username MySQL DB Server (e.g., 'root')
+  user: <%= ENV['RDS_CREDS'].username %>
+
+  # Description: Password MySQL DB Server (e.g., 'P@ssw0rd1')
+  password: <%= ENV['RDS_CREDS'].password %>
+
+  # Description: Hostname MySQL DB Server (e.g., 'localhost')
+  host: <%= ENV['RDS_CREDS'].host %>
+<% end %>
+
+# Description: RDS Credentials stored in Secrets Manager
+rds_creds: <%= ENV['RDS_CREDS'] %>
 
 # Description: Port MySQL DB Server (e.g., 3306)
 port: <%= Integer(ENV['PORT']) %>
