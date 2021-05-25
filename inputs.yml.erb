@@ -1,13 +1,11 @@
 # Description: Username MySQL DB Server (e.g., 'root')
-user: <%= val=ENV['RDS_CREDS']; val == "" ? ENV['USERNAME'] : ENV['RDS_CREDS'].username %>
+user: <%= ENV['USERNAME'] %>
 
 # Description: Password MySQL DB Server (e.g., 'P@ssw0rd1')
-password: <%= val=ENV['RDS_CREDS']; val == "" ? ENV['PASSWORD'] : ENV['RDS_CREDS'].password %>
+password: <%= ENV['PASSWORD'] %>
 
 # Description: Hostname MySQL DB Server (e.g., 'localhost')
-host: <%= val=ENV['RDS_CREDS']; val == "" ? ENV['HOSTNAME'] : ENV['RDS_CREDS'].host %>
-
-
+host: <%= ENV['HOSTNAME'] %>
 
 # Description: Port MySQL DB Server (e.g., 3306)
 port: <%= Integer(ENV['PORT']) %>
