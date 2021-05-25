@@ -1,5 +1,4 @@
 <% if ENV['RDS_CREDS'] -%>
-<% require 'json' -%>
 user: <%= JSON.parse(ENV['RDS_CREDS'])[:username] %>
 password: <%= JSON.parse(ENV['RDS_CREDS'])[:password] %>
 host: <%= JSON.parse(ENV['RDS_CREDS'])[:host] %>
@@ -8,6 +7,7 @@ user: <%= ENV['USERNAME'] %>
 password: <%= ENV['PASSWORD'] %>
 host: <%= ENV['HOSTNAME'] %>
 <% end -%>
+
 # Description: Port MySQL DB Server (e.g., 3306)
 port: <%= Integer(ENV['PORT']) %>
 
