@@ -1,14 +1,16 @@
-# Description: Username MySQL DB Server (e.g., 'root')
+<% if ENV['RDS_CREDS'] %>
+<% require 'json' %>
+user: <%= JSON.parse(ENV['RDS_CREDS'])['username'] %>
+password: <%= JSON.parse(ENV['RDS_CREDS'])['password'] %>
+host: <%= JSON.parse(ENV['RDS_CREDS'])['host'] %>
+<% else %>
 user: <%= ENV['USERNAME'] %>
-
-# Description: Password MySQL DB Server (e.g., 'P@ssw0rd1')
 password: <%= ENV['PASSWORD'] %>
-
-# Description: Hostname MySQL DB Server (e.g., 'localhost')
 host: <%= ENV['HOSTNAME'] %>
+<% end %>
 
 # Description: Port MySQL DB Server (e.g., 3306)
-port: <%= ENV['PORT'] %>
+port: <%= Integer(ENV['PORT']) %>
 
 # Description: Approved version expected to be installed (e.g., ['5.7.31'])
 approved_mysql_version: <%= ENV['MYSQL_VERSION'] %>

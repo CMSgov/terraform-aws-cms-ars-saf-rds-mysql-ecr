@@ -27,5 +27,5 @@ RUN mkdir profiles \
     && git clone https://github.com/CMSgov/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay.git \
     && cd cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay
 
-COPY --chown=default:default inputs.yml profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/
+COPY --chown=default:default inputs.yml.erb profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/
 COPY --chown=default:default scriptRunner.sh ./profiles/
