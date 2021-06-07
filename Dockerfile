@@ -1,31 +1,33 @@
-FROM amazon/aws-cli:2.2.2
+FROM ruby:2.6.7-alpine3.13
 
-ARG VERSION="4.22.0"
+ARG CINC_VERSION="4.22.0"
 ARG GEM_SOURCE=https://packagecloud.io/cinc-project/stable
+ARG RUNUSER=default
+ARG RUNGROUP=default
 
-RUN amazon-linux-extras enable ruby2.6
-
-RUN yum -y upgrade && \
-    yum -y install https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm && \
-    yum -y install gcc-c++ make git mysql-community-client && \
-    yum -y install ruby-devel rubygems-devel rubygem-bundler
-
-RUN gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} cinc-auditor-bin
-
-#clean up
-RUN yum clean all && \
-    rm -rf /var/cache/yum
-
-# create a non-root user for security
-RUN useradd -rm -d /home/default -u 1234 default
-USER default
-WORKDIR /home/default
-
-# clone CMS profile
-RUN mkdir profiles \
-    && cd profiles \
+# install dependencies (some temporarily)
+# install cinc-auditor
+# clone the CMS profile
+# create user
+# clean up
+RUN apk add --update --no-cache --virtual .build-deps \
+      build-base gcc musl-dev openssl-dev \
+      libxml2-dev libffi-dev libstdc++ git \
+    && apk add --no-cache bash mysql-client \
+    && gem install --no-document --source ${GEM_SOURCE} \
+      --version ${CINC_VERSION} cinc-auditor-bin \
+    && mkdir -p /home/${RUNUSER}/profiles \
+    && cd /home/${RUNUSER}/profiles \
     && git clone https://github.com/CMSgov/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay.git \
-    && cd cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay
+    && addgroup -g 1000 ${RUNUSER} && adduser -u 1000 -G ${RUNUSER} -s /bin/sh -D ${RUNUSER} \
+    && chown -R ${RUNUSER}:${RUNGROUP} /home/${RUNUSER} \
+    && apk del --no-cache .build-deps \
+    && rm -rf /tmp/* \
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /var/tmp/*
 
-COPY --chown=default:default inputs.yml.erb profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/
-COPY --chown=default:default scriptRunner.sh ./profiles/
+COPY --chown=${RUNUSER}:${RUNGROUP} inputs.yml.erb /home/${RUNUSER}/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/
+COPY --chown=${RUNUSER}:${RUNGROUP} scriptRunner.sh /home/${RUNUSER}/profiles
+
+WORKDIR /home/${RUNUSER}
+USER ${RUNUSER}
