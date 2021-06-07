@@ -13,7 +13,7 @@ ARG RUNGROUP=default
 RUN apk add --update --no-cache --virtual .build-deps \
       build-base gcc musl-dev openssl-dev \
       libxml2-dev libffi-dev libstdc++ git \
-    && apk add --no-cache bash mysql-client \
+    && apk add --update --no-cache --virtual .run-deps bash mysql-client \
     && gem install --no-document --source ${GEM_SOURCE} \
       --version ${CINC_VERSION} cinc-auditor-bin \
     && mkdir -p /home/${RUNUSER}/profiles \
