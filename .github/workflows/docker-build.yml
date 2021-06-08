@@ -31,13 +31,6 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: docker build . --file Dockerfile --tag $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest --tag $ECR_REGISTRY/$ECR_REPOSITORY:${HASH}
-      - name: Test the Docker image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        run: |
-          docker run --entrypoint /bin/bash $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} -c "aws --version"
-          docker run --entrypoint /bin/bash $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} -c "git --version"
-          docker run --entrypoint /bin/bash $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} -c "cinc-auditor --version"
       - name: Push docker image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
