@@ -49,19 +49,6 @@ data "aws_iam_policy_document" "ecr_perms_ro_cross_account" {
   }
 
   statement {
-    sid = ""
-
-    effect = "Allow"
-
-    actions = ["ecr:GetAuthorizationToken"]
-
-    principals {
-      identifiers = concat([var.ci_user_arn], var.allowed_read_principals)
-      type        = "AWS"
-    }
-  }
-
-  statement {
     sid = "githubCIPermissions"
 
     effect = "Allow"
@@ -78,6 +65,7 @@ data "aws_iam_policy_document" "ecr_perms_ro_cross_account" {
       "ecr:CompleteLayerUpload",
       "ecr:BatchGetImage",
       "ecr:BatchCheckLayerAvailability",
+      "ecr:GetAuthorizationToken"
     ]
 
     principals {
