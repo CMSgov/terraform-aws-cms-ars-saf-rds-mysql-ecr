@@ -19,3 +19,5 @@ RUN /tmp/tests.sh && rm -rf /tmp/*
 
 WORKDIR /home/${RUNUSER}
 USER ${RUNUSER}
+
+ENTRYPOINT ["./profiles/scriptRunner.sh"]
