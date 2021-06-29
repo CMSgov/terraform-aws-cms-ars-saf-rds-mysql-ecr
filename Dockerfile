@@ -14,6 +14,7 @@ RUN /tmp/build.sh
 
 COPY --chown=${RUNUSER}:${RUNGROUP} inputs.yml.erb /home/${RUNUSER}/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/
 COPY --chown=${RUNUSER}:${RUNGROUP} scriptRunner.sh /home/${RUNUSER}/profiles
+COPY --chown=${RUNUSER}:${RUNGROUP} main /home/${RUNUSER}/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/
 
 RUN /tmp/tests.sh && rm -rf /tmp/*
 
