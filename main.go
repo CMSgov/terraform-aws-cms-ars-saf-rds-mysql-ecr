@@ -178,6 +178,8 @@ func ProcessFindingsIntoSecurityHub(profiles []Profile, isDryRun bool, accountID
 		}
 
 		hub := SecurityHub.New(sess)
+		fmt.Println("Findings:")
+		fmt.Println(findings)
 		batchFindings := &SecurityHub.BatchImportFindingsInput{
 			Findings: findings,
 		}
