@@ -178,8 +178,6 @@ func ProcessFindingsIntoSecurityHub(profiles []Profile, isDryRun bool, accountID
 		}
 
 		hub := SecurityHub.New(sess)
-		fmt.Println("Findings:")
-		fmt.Println(findings)
 		batchFindings := &SecurityHub.BatchImportFindingsInput{
 			Findings: findings,
 		}
@@ -218,6 +216,9 @@ func main() {
 			}
 			log.Fatal("failed to parse json stream", err)
 		}
+	}
+	if len(result.Profiles) < 1 {
+		log.Fatal("No profiles found in stream:")
 	}
 	err := ProcessFindingsIntoSecurityHub(result.Profiles, *isDryRun, *accountID, *arn, *rdsARN)
 	if err != nil {
