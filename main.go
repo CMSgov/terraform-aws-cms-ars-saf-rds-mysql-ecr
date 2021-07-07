@@ -178,14 +178,18 @@ func ProcessFindingsIntoSecurityHub(profiles []Profile, isDryRun bool, accountID
 		}
 
 		hub := SecurityHub.New(sess)
-		batchFindings := &SecurityHub.BatchImportFindingsInput{
-			Findings: findings,
+		// upload 10 findings at a time to avoid going over max size
+		maxPayload := 10
+		for count:= 0; count < len(findings); count = count+maxPayload {
+			batchFindings := &SecurityHub.BatchImportFindingsInput{
+				Findings: findings[count:count+maxPayload],
+			}
+			out, importError := hub.BatchImportFindings(batchFindings)
+			if importError != nil {
+				return importError
+			}
+			fmt.Println(out)
 		}
-		out, importError := hub.BatchImportFindings(batchFindings)
-		if importError != nil {
-			return importError
-		}
-		fmt.Println(out)
 	} else {
 		for _, find := range findings {
 			fmt.Println(find)
