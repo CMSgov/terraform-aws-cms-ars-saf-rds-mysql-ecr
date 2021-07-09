@@ -27,7 +27,7 @@ echo "uploading findings into security hub"
 
 if [[ -n $PRODUCTARN ]]; then
   echo "$PRODUCTARN values found: $PRODUCTARN. Uploading findings into security hub"
-  cinc-auditor exec /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay --input-file=/home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/inputs.yml --reporter json --chef-license accept-silent | /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/main -dry=0 -accountid=$AWSACCOUNTID -product-arn=$PRODUCTARN -rds-arn=$RDSARN
+  cinc-auditor exec /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay --input-file=/home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/inputs.yml --reporter json --chef-license accept-silent | /home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay/main -dry=0 -accountid="$AWSACCOUNTID" -product-arn="$PRODUCTARN" -rds-arn="$RDSARN"
 fi
 
 echo "cinc-auditor scan completed successfully"
