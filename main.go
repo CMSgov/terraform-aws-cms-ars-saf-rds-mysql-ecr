@@ -83,13 +83,13 @@ func truncateString(val string, maxLength int) string {
 // GenerateSecurityHubFinding expects a inspec json object and returns a new security hub finding.
 func GenerateSecurityHubFinding(control Control, profile Profile, accountID, arn, rdsARN string) (SecurityHub.AwsSecurityFinding, error) {
 	var SecurityHubGenerator = "cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay"
-	var productVersion= "0.1"
+	var productVersion = "0.1"
 	var ResourceType = "RDS MYSQL Instance"
 	var Resource = SecurityHub.Resource{
 		Id:   &rdsARN,
 		Type: &ResourceType,
 	}
-	productFields:= make(map[string]*string)
+	productFields := make(map[string]*string)
 	productFields["ProviderName"] = &SecurityHubGenerator
 	productFields["ProviderVersion"] = &productVersion
 
@@ -180,9 +180,9 @@ func ProcessFindingsIntoSecurityHub(profiles []Profile, isDryRun bool, accountID
 		hub := SecurityHub.New(sess)
 		// upload 10 findings at a time to avoid going over max size
 		maxPayload := 10
-		for count:= 0; count < len(findings); count = count+maxPayload {
+		for count := 0; count < len(findings); count = count + maxPayload {
 			batchFindings := &SecurityHub.BatchImportFindingsInput{
-				Findings: findings[count:count+maxPayload],
+				Findings: findings[count : count+maxPayload],
 			}
 			out, importError := hub.BatchImportFindings(batchFindings)
 			if importError != nil {
