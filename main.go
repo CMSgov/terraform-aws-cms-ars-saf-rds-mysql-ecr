@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
 	"github.com/aws/aws-sdk-go/aws/session"
 	SecurityHub "github.com/aws/aws-sdk-go/service/securityhub"
 
@@ -147,6 +148,15 @@ func GenerateSecurityHubFinding(control Control, profile Profile, accountID, arn
 	return record, nil
 }
 
+// MakeSession sets up a session to AWS
+func MakeSession() (*session.Session, error) {
+	sessOpts := session.Options{
+		SharedConfigState:       session.SharedConfigEnable,
+		AssumeRoleTokenProvider: stscreds.StdinTokenProvider,
+	}
+	return session.NewSessionWithOptions(sessOpts)
+}
+
 // ProcessFindingsIntoSecurityHub takes the profiles data structure and converts it to security hub findings before registering them
 func ProcessFindingsIntoSecurityHub(profiles []Profile, isDryRun bool, accountID, arn, rdsARN string) error {
 	var findings []*SecurityHub.AwsSecurityFinding
@@ -167,15 +177,7 @@ func ProcessFindingsIntoSecurityHub(profiles []Profile, isDryRun bool, accountID
 		// Create new session and assume the role of ECS task runner
 		// By default the SDK will only load the shared credentials file's (~/.aws/credentials) credentials values,
 		// and all other config is provided by the environment variables, SDK defaults, and user provided aws.Config values.
-
-		// If the AWS_SDK_LOAD_CONFIG environment variable is set,
-		// or SharedConfigEnable option is used to create the Session the full shared config values will be loaded.
-		sess, err := session.NewSessionWithOptions(session.Options{
-			SharedConfigState: session.SharedConfigEnable,
-		})
-		if err != nil {
-			return err
-		}
+		sess := session.Must(MakeSession())
 
 		hub := SecurityHub.New(sess)
 		// upload 10 findings at a time to avoid going over max size
