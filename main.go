@@ -83,16 +83,14 @@ func truncateString(val string, maxLength int) string {
 
 // GenerateSecurityHubFinding expects a inspec json object and returns a new security hub finding.
 func GenerateSecurityHubFinding(control Control, profile Profile, accountID, arn, rdsARN string) (SecurityHub.AwsSecurityFinding, error) {
-	var SecurityHubGenerator = "cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay"
-	var productVersion = "0.1"
-	var ResourceType = "RDS MYSQL Instance"
+	var SecurityHubGenerator = "ecs/inspec/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay"
+	var ResourceType = "AwsRdsDbInstance"
 	var Resource = SecurityHub.Resource{
 		Id:   &rdsARN,
 		Type: &ResourceType,
 	}
 	productFields := make(map[string]*string)
 	productFields["ProviderName"] = &SecurityHubGenerator
-	productFields["ProviderVersion"] = &productVersion
 
 	var ResourceList []*SecurityHub.Resource
 	var schemaVersion = "2018-10-08"
@@ -103,7 +101,7 @@ func GenerateSecurityHubFinding(control Control, profile Profile, accountID, arn
 	ResourceList = append(ResourceList, &Resource)
 	remediationText := truncateString(control.Tags.Fix, 511)
 	var findingTypes []*string
-	findingTypeStr := "Software and Configuration Checks/Vulnerabilities/CVE for RDS MYSQL"
+	findingTypeStr := "Software and Configuration Checks/CIS/RDS/mysql"
 	severityLabel := strings.ToUpper(control.Tags.Severity)
 	findingTypes = append(findingTypes, &findingTypeStr)
 	providerFields := SecurityHub.FindingProviderFields{
