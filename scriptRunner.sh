@@ -44,8 +44,8 @@ if [[ -n $PRODUCTARN ]]; then
   # Let's test if we can get even a test finding in security hub
   aws securityhub batch-import-findings --findings '
     [{
-        "AwsAccountId": "123456789012",
-        "CreatedAt": "2019-08-07T17:05:54.832Z",
+        "AwsAccountId": "037370603820",
+        "CreatedAt": "2021-07-07T17:05:54.832Z",
         "Description": "Vulnerability in a CloudTrail trail - TESTING ONLY",
         "FindingProviderFields": {
             "Severity": {
@@ -57,10 +57,10 @@ if [[ -n $PRODUCTARN ]]; then
         },
         "GeneratorId": "TestGeneratorId",
         "Id": "Id1",
-        "ProductArn": "arn:aws:securityhub:us-east-1:123456789012:product/123456789012/default",
+        "ProductArn": "arn:aws:securityhub:us-east-1:037370603820:product/037370603820/default",
         "Resources": [
             {
-                "Id": "arn:aws:cloudtrail:us-east-1:123456789012:trail/TrailName",
+                "Id": "arn:aws:cloudtrail:us-east-1:037370603820:trail/TEST",
                 "Partition": "aws",
                 "Region": "us-east-1",
                 "Type": "AwsCloudTrailTrail"
@@ -68,7 +68,7 @@ if [[ -n $PRODUCTARN ]]; then
         ],
         "SchemaVersion": "2018-10-08",
         "Title": "CloudTrail trail vulnerability - TESTING ONLY",
-        "UpdatedAt": "2020-06-02T16:05:54.832Z"
+        "UpdatedAt": "2021-07-08T16:05:54.832Z"
     }]'
 fi
 
