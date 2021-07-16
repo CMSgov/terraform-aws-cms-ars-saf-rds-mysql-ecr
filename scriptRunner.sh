@@ -41,7 +41,7 @@ if [[ -n $PRODUCTARN ]]; then
     -rds-arn="$RDSARN" \
     < "${JSON_OUTFILE}" \
   | jq 'walk( if type == "object" then with_entries(select(.value != null)) else . end)' > "${OVERLAY_PATH}/findings.json"
-  aws security-hub batch-import-findings --cli-input-json "file://${OVERLAY_PATH}/findings.json"
+  aws securityhub batch-import-findings --cli-input-json "file://${OVERLAY_PATH}/findings.json"
 fi
 
 echo "cinc-auditor scan completed successfully"
