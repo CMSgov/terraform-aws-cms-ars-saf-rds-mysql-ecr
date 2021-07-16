@@ -34,43 +34,12 @@ fi
 
 if [[ -n $PRODUCTARN ]]; then
   echo "PRODUCTARN value found: $PRODUCTARN. Uploading findings into security hub"
-  # "${OVERLAY_PATH}/main" \
-  #   -dry=0 \
-  #   -accountid="$AWSACCOUNTID" \
-  #   -product-arn="$PRODUCTARN" \
-  #   -rds-arn="$RDSARN" \
-  #   < "${JSON_OUTFILE}"
-
-  # Let's test if we can get even a test finding in security hub
-  aws securityhub batch-import-findings --findings '
-    [{
-        "AwsAccountId": "037370603820",
-        "CreatedAt": "2021-07-07T17:05:54.832Z",
-        "Description": "Vulnerability in a CloudTrail trail - TESTING ONLY",
-        "FindingProviderFields": {
-            "Severity": {
-                "Label": "INFORMATIONAL",
-                "Original": "0"
-            },
-            "Types": [
-                "Software and Configuration Checks/Vulnerabilities/CVE"
-            ]
-        },
-        "GeneratorId": "TestGeneratorId",
-        "Id": "Id1",
-        "ProductArn": "arn:aws:securityhub:us-east-1:037370603820:product/037370603820/default",
-        "Resources": [
-            {
-                "Id": "arn:aws:cloudtrail:us-east-1:037370603820:trail/TEST",
-                "Partition": "aws",
-                "Region": "us-east-1",
-                "Type": "AwsCloudTrailTrail"
-            }
-        ],
-        "SchemaVersion": "2018-10-08",
-        "Title": "CloudTrail trail vulnerability - TESTING ONLY",
-        "UpdatedAt": "2021-07-08T16:05:54.832Z"
-    }]'
+  "${OVERLAY_PATH}/main" \
+    -dry=0 \
+    -accountid="$AWSACCOUNTID" \
+    -product-arn="$PRODUCTARN" \
+    -rds-arn="$RDSARN" \
+    < "${JSON_OUTFILE}"
 fi
 
 echo "cinc-auditor scan completed successfully"
