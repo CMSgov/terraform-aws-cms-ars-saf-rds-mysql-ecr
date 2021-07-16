@@ -35,13 +35,14 @@ fi
 if [[ -n $PRODUCTARN ]]; then
   echo "PRODUCTARN value found: $PRODUCTARN. Uploading findings into security hub"
   "${OVERLAY_PATH}/main" \
-    -dry=1 \
-    -accountid="$AWSACCOUNTID" \
+    -dry=0 \
+    -accountid="$ACCOUNTID" \
     -product-arn="$PRODUCTARN" \
     -rds-arn="$RDSARN" \
-    < "${JSON_OUTFILE}" \
-  | jq 'walk( if type == "object" then with_entries(select(.value != null)) else . end)' > "${OVERLAY_PATH}/findings.json"
-  aws securityhub batch-import-findings --cli-input-json "file://${OVERLAY_PATH}/findings.json"
+    < "${JSON_OUTFILE}"
+  #   < "${JSON_OUTFILE}" \
+  # | jq 'walk( if type == "object" then with_entries(select(.value != null)) else . end)' > "${OVERLAY_PATH}/findings.json"
+  # aws securityhub batch-import-findings --cli-input-json "file://${OVERLAY_PATH}/findings.json"
 fi
 
 echo "cinc-auditor scan completed successfully"
