@@ -49,7 +49,7 @@ if [[ -n $PRODUCTARN ]]; then
         "Description": "Vulnerability in a CloudTrail trail - TESTING ONLY",
         "FindingProviderFields": {
             "Severity": {
-                "Label": "INFORMATIONAL"
+                "Label": "INFORMATIONAL",
                 "Original": "0"
             },
             "Types": [
