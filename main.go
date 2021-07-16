@@ -164,9 +164,9 @@ func ProcessFindingsIntoSecurityHub(profiles []Profile, isDryRun bool, accountID
 		batchFindings := &SecurityHub.BatchImportFindingsInput{
 			Findings: findings,
 		}
-		// out, _ := json.MarshalIndent(&batchFindings, "", "  ")
-		// fmt.Println(string(out))
-		fmt.Println(batchFindings)
+		out, _ := json.MarshalIndent(&batchFindings, "", "  ")
+		fmt.Println(string(out))
+		// fmt.Println(batchFindings)
 	}
 	return nil
 }
