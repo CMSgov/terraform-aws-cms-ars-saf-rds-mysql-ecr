@@ -2,7 +2,7 @@
 
 # similar to terraform-aws-cms-ars-saf-ecr repository, removing -e flag to account for nonzero error codes
 # Error codes for reference: https://docs.chef.io/inspec/cli/#exec
-set -xo pipefail
+set -o pipefail
 
 # Set up some variables to make our life easier
 OVERLAY_PATH="/home/default/profiles/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay"

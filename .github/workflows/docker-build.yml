@@ -2,7 +2,7 @@ name: docker-build
 
 on:
   push:
-    branches: [rd-security-hub-CMCSMACD-122]
+    branches: [main]
   # Also trigger on release created event
   release:
     types: [published]
@@ -36,7 +36,7 @@ jobs:
       - name: Build the Docker image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        run: docker build . --file Dockerfile --tag $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} --tag $ECR_REGISTRY/$ECR_REPOSITORY:exp --tag $ECR_REGISTRY/$ECR_REPOSITORY:${HASH}
+        run: docker build . --file Dockerfile --tag $ECR_REGISTRY/$ECR_REPOSITORY:${TAG} --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest --tag $ECR_REGISTRY/$ECR_REPOSITORY:${HASH}
       - name: Push docker image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
