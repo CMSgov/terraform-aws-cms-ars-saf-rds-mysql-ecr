@@ -32,17 +32,16 @@ else
 fi
 
 
-if [[ -n $PRODUCTARN ]]; then
-  echo "PRODUCTARN value found: $PRODUCTARN. Uploading findings into security hub"
+if [[ -n $ENABLE_SECURITYHUB ]]; then
+  echo "ENABLE_SECURITYHUB value found: $ENABLE_SECURITYHUB. Uploading findings into security hub"
   "${OVERLAY_PATH}/main" \
     -dry=0 \
+    -generatorid="ecs/inspec/cms-ars-3.1-moderate-aws-rds-oracle-mysql-ee-5.7-cis-overlay" \
     -accountid="$ACCOUNTID" \
-    -product-arn="$PRODUCTARN" \
-    -rds-arn="$RDSARN" \
+    -region="$REGION" \
+    -resource-arn="$RDSARN" \
+    -resource-type="AwsRdsDbInstance" \
     < "${JSON_OUTFILE}"
-  #   < "${JSON_OUTFILE}" \
-  # | jq 'walk( if type == "object" then with_entries(select(.value != null)) else . end)' > "${OVERLAY_PATH}/findings.json"
-  # aws securityhub batch-import-findings --cli-input-json "file://${OVERLAY_PATH}/findings.json"
 fi
 
 echo "cinc-auditor scan completed successfully"
