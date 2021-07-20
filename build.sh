@@ -5,7 +5,7 @@ set -euox pipefail
 apk add --update --no-cache --virtual .build-deps \
       build-base gcc musl-dev openssl-dev curl \
       libxml2-dev libffi-dev libstdc++ git
-apk add --update --no-cache --virtual .run-deps bash mysql-client
+apk add --update --no-cache --virtual .run-deps bash mysql-client jq
 
 # install cinc-auditor
 gem install --no-document --source "${GEM_SOURCE}" \

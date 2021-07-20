@@ -21,3 +21,8 @@ repos:
     rev: 1.0.5
     hooks:
       - id: shell-lint
+
+  - repo: git://github.com/golangci/golangci-lint
+    rev: v1.38.0
+    hooks:
+      - id: golangci-lint
