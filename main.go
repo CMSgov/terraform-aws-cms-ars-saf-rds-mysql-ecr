@@ -65,14 +65,14 @@ func truncateString(val string, maxLength int) string {
 func GenerateSecurityHubFinding(control Control, profile Profile, generatorID, accountID, arn, resourceARN, resourceType string) (SecurityHub.AwsSecurityFinding, error) {
 	for _, result := range control.Results {
 		if result.Status == "failed" {
-			return processFinding(control, profile, generatorID, accountID, arn, resourceARN, resourceType)
+			return processFinding(control, result, profile, generatorID, accountID, arn, resourceARN, resourceType)
 		}
 	}
 	var emptyFinding SecurityHub.AwsSecurityFinding
 	return emptyFinding, nil
 }
 
-func processFinding(control Control, profile Profile, generatorID, accountID, region, resourceARN, resourceType string) (SecurityHub.AwsSecurityFinding, error) {
+func processFinding(control Control, result Result, profile Profile, generatorID, accountID, region, resourceARN, resourceType string) (SecurityHub.AwsSecurityFinding, error) {
 	var record SecurityHub.AwsSecurityFinding
 
 	record.AwsAccountId = &accountID
@@ -89,6 +89,17 @@ func processFinding(control Control, profile Profile, generatorID, accountID, re
 
 	recordID := fmt.Sprintf("%s/%s", resourceARN, control.ID)
 	record.Id = &recordID
+
+	statusReasons := []*SecurityHub.StatusReason{
+		{
+			Description: &result.Message,
+			ReasonCode:  &result.Desc,
+		},
+	}
+	record.Compliance = &SecurityHub.Compliance{
+		Status:        &result.Status,
+		StatusReasons: statusReasons,
+	}
 
 	// A set of resource data types that describe the resources that the finding
 	// refers to.
