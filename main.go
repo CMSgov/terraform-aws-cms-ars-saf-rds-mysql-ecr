@@ -90,6 +90,7 @@ func processFinding(control Control, result Result, profile Profile, generatorID
 	recordID := fmt.Sprintf("%s/%s", resourceARN, control.ID)
 	record.Id = &recordID
 
+	status := strings.ToUpper(result.Status)
 	statusReasons := []*SecurityHub.StatusReason{
 		{
 			Description: &result.Message,
@@ -97,7 +98,7 @@ func processFinding(control Control, result Result, profile Profile, generatorID
 		},
 	}
 	record.Compliance = &SecurityHub.Compliance{
-		Status:        &result.Status,
+		Status:        &status,
 		StatusReasons: statusReasons,
 	}
 
