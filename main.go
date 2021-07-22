@@ -91,15 +91,8 @@ func processFinding(control Control, result Result, profile Profile, generatorID
 	record.Id = &recordID
 
 	status := strings.ToUpper(result.Status)
-	statusReasons := []*SecurityHub.StatusReason{
-		{
-			Description: &result.Message,
-			ReasonCode:  &result.Desc,
-		},
-	}
 	record.Compliance = &SecurityHub.Compliance{
-		Status:        &status,
-		StatusReasons: statusReasons,
+		Status: &status,
 	}
 
 	// A set of resource data types that describe the resources that the finding
